@@ -1,0 +1,14 @@
+{
+  "files.watcherExclude": {
+    "**/.dart_tool/**": true,
+    "**/build/**": true,
+    "**/.git/**": true,
+    "**/android/.gradle/**": true
+  },
+  "search.exclude": {
+    "**/.dart_tool/**": true,
+    "**/build/**": true,
+    "**/.git/**": true,
+    "**/android/.gradle/**": true
+  }
+}
