@@ -28,16 +28,11 @@ void main() {
       await tester.enterText(find.byType(TextField).last, 'segredo');
       await tester.tap(find.text('Entrar'));
       await tester.pump();
-      await tester.pump(const Duration(seconds: 1));
+      await _waitForSavedCredentials(tester);
 
-      expect(
-        (await SharedPreferences.getInstance()).getInt('saved_user_id'),
-        42,
-      );
-      expect(
-        (await SharedPreferences.getInstance()).getString('saved_username'),
-        'ana@example.com',
-      );
+      final savedPreferences = await SharedPreferences.getInstance();
+      expect(savedPreferences.getInt('saved_user_id'), 42);
+      expect(savedPreferences.getString('saved_username'), 'ana@example.com');
     } finally {
       await server.close(force: true);
     }
@@ -97,4 +92,20 @@ Future<HttpServer> _startFakeApi() async {
   );
 
   return server;
+}
+
+Future<void> _waitForSavedCredentials(WidgetTester tester) async {
+  const maxAttempts = 100;
+
+  for (var attempt = 0; attempt < maxAttempts; attempt++) {
+    final preferences = await SharedPreferences.getInstance();
+    if (preferences.getInt('saved_user_id') == 42 &&
+        preferences.getString('saved_username') == 'ana@example.com') {
+      return;
+    }
+
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+
+  fail('As credenciais nao foram persistidas no tempo esperado.');
 }
