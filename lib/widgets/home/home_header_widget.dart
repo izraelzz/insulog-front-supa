@@ -9,11 +9,14 @@ class HomeHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = size.width > 600 ? 600.0 : size.width;
+    final cardHeight = size.height * 0.16 < 145 ? 145.0 : size.height * 0.16;
+
     return Column(
       children: [
         Container(
           padding: EdgeInsets.symmetric(
-            horizontal: size.width * 0.05,
+            horizontal: width * 0.05,
             vertical: size.height * 0.02,
           ),
           child: Column(
@@ -24,7 +27,7 @@ class HomeHeaderWidget extends StatelessWidget {
                   Text(
                     'Olá, ${state.returnNameLogin()}!',
                     style: TextStyle(
-                      fontSize: size.width * 0.08,
+                      fontSize: width * 0.08,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -34,7 +37,7 @@ class HomeHeaderWidget extends StatelessWidget {
                     child: Text(
                       state.returnFirstNameCaractere(),
                       style: TextStyle(
-                        fontSize: size.width * 0.08,
+                        fontSize: width * 0.08,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF3EA75F),
                       ),
@@ -45,7 +48,7 @@ class HomeHeaderWidget extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(top: 8),
                 padding: const EdgeInsets.all(12),
-                height: size.height * 0.16,
+                height: cardHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -55,12 +58,10 @@ class HomeHeaderWidget extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(size.width * 0.1),
-                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(width * 0.1)),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(left: size.width * 0.02),
+                  padding: EdgeInsets.only(left: width * 0.02),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -74,7 +75,7 @@ class HomeHeaderWidget extends StatelessWidget {
                               Text(
                                 "Média diária",
                                 style: TextStyle(
-                                  fontSize: size.width * 0.06,
+                                  fontSize: width * 0.06,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -89,17 +90,17 @@ class HomeHeaderWidget extends StatelessWidget {
                                 state.mediaGlicose,
                                 style: TextStyle(
                                   height: 0,
-                                  fontSize: size.width * 0.12,
+                                  fontSize: width * 0.12,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(width: 8),
+                              SizedBox(width: width * 0.02),
                               Text(
                                 "mg/dL",
                                 style: TextStyle(
                                   height: 2,
-                                  fontSize: size.width * 0.05,
+                                  fontSize: width * 0.05,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -112,50 +113,52 @@ class HomeHeaderWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                            width: size.width * 0.32,
-                            padding: EdgeInsets.all(size.width * 0.01),
+                            width: width * 0.32,
+                            padding: EdgeInsets.all(width * 0.01),
                             decoration: BoxDecoration(
-                              color:  state.statusMedia == 0
-                                        ?  Color.fromARGB(255, 255, 183, 0)
-                                        : state.statusMedia == 1
-                                        ? const Color.fromARGB(163, 255, 255, 255)
-                                        : state.statusMedia == 2
-                                        ? Color(state.colorStatusMedia)
-                                        :  Colors.white54,
+                              color: state.statusMedia == 0
+                                  ? Color.fromARGB(255, 255, 183, 0)
+                                  : state.statusMedia == 1
+                                  ? const Color.fromARGB(163, 255, 255, 255)
+                                  : state.statusMedia == 2
+                                  ? Color(state.colorStatusMedia)
+                                  : Colors.white54,
                               borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(size.width * 0.1),
-                                topRight: Radius.circular(size.width * 0.02),
-                                bottomLeft: Radius.circular(size.width * 0.02),
-                                bottomRight: Radius.circular(size.width * 0.1),
+                                topLeft: Radius.circular(width * 0.1),
+                                topRight: Radius.circular(width * 0.02),
+                                bottomLeft: Radius.circular(width * 0.02),
+                                bottomRight: Radius.circular(width * 0.1),
                               ),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(
-                                   state.statusMedia != 1
-                                        ? Icons.warning
-                                        : Icons.check_circle_rounded,
+                                  state.statusMedia != 1
+                                      ? Icons.warning
+                                      : Icons.check_circle_rounded,
                                   color: state.statusMedia == 0
-                                        ? Color.fromARGB(255, 255, 255, 255)
-                                        : state.statusMedia == 1
-                                        ? Color(0xFF3EA75F)
-                                        : state.statusMedia == 2
-                                        ? Color.fromARGB(255, 255, 255, 255)
-                                        : Color.fromARGB(255, 0, 0, 0),
-                                  size: size.width * 0.065,
+                                      ? Color.fromARGB(255, 255, 255, 255)
+                                      : state.statusMedia == 1
+                                      ? Color(0xFF3EA75F)
+                                      : state.statusMedia == 2
+                                      ? Color.fromARGB(255, 255, 255, 255)
+                                      : Color.fromARGB(255, 0, 0, 0),
+                                  size: width * 0.065,
                                 ),
-                                Text(
-                                  state.statusMediaDiariaDescricao,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: state.statusMedia == 0
-                                        ? Color.fromARGB(255, 255, 255, 255)
-                                        : state.statusMedia == 1
-                                        ?   Color(0xFF3EA75F)
-                                        : state.statusMedia == 2
-                                        ? Color.fromARGB(255, 255, 255, 255)
-                                        : Color.fromARGB(255, 0, 0, 0),
+                                Flexible(
+                                  child: Text(
+                                    state.statusMediaDiariaDescricao,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: state.statusMedia == 0
+                                          ? Color.fromARGB(255, 255, 255, 255)
+                                          : state.statusMedia == 1
+                                          ? Color(0xFF3EA75F)
+                                          : state.statusMedia == 2
+                                          ? Color.fromARGB(255, 255, 255, 255)
+                                          : Color.fromARGB(255, 0, 0, 0),
+                                    ),
                                   ),
                                 ),
                               ],
