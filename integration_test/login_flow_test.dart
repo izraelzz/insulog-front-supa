@@ -69,6 +69,25 @@ Future<HttpServer> _startFakeApi() async {
             ..headers.contentType = ContentType.json
             ..write(jsonEncode({'message': 'Usuario ou senha invalidos.'}));
         }
+      } else if (request.method == 'GET' &&
+          request.uri.path == '/alarmes/usuario/42') {
+        request.response
+          ..statusCode = HttpStatus.ok
+          ..headers.contentType = ContentType.json
+          ..write(jsonEncode({'registros': []}));
+      } else if (request.method == 'GET' &&
+          request.uri.path.startsWith('/registros-glicose/usuario/42')) {
+        request.response
+          ..statusCode = HttpStatus.ok
+          ..headers.contentType = ContentType.json
+          ..write(
+            jsonEncode({
+              'mediaDiaria': 0,
+              'statusMediaDiaria': 3,
+              'statusMediaDiariaDescricao': 'Sem dados',
+              'registros': [],
+            }),
+          );
       } else {
         request.response.statusCode = HttpStatus.notFound;
       }
