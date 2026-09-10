@@ -33,4 +33,4 @@ jobs:
         run: flutter test
 
       - name: Executar testes de integração
-        run: xvfb-run -a flutter test integration_test/login_flow_test.dart -d linux
+        run: xvfb-run -a flutter test integration_test/app_test.dart -d linux
