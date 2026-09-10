@@ -28,3 +28,6 @@ jobs:
 
       - name: Executar testes
         run: flutter test
+
+      - name: Executar testes de integração
+        run: flutter test integration_test/login_flow_test.dart -d linux
