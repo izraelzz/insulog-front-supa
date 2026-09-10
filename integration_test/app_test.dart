@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:insulog/main.dart';
 import 'package:integration_test/integration_test.dart';
@@ -15,6 +16,10 @@ void main() {
     await tester.tap(find.text('Entrar'));
     await tester.pump();
 
-    expect(find.text('Campo obrigatorio'), findsNWidgets(2));
+    final textFields = tester.widgetList<TextField>(find.byType(TextField));
+
+    expect(textFields, hasLength(2));
+    expect(textFields.first.decoration?.labelStyle?.color, Colors.red);
+    expect(textFields.last.decoration?.labelStyle?.color, Colors.red);
   });
 }
