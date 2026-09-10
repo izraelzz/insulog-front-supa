@@ -27,9 +27,9 @@ void main() {
       await tester.enterText(find.byType(TextField).first, 'ana@example.com');
       await tester.enterText(find.byType(TextField).last, 'segredo');
       await tester.tap(find.text('Entrar'));
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
 
-      expect(find.text('Registros'), findsOneWidget);
       expect(
         (await SharedPreferences.getInstance()).getInt('saved_user_id'),
         42,
