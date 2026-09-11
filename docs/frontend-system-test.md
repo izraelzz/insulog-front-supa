@@ -222,3 +222,88 @@ reais. A limpeza concluiu e o container foi removido. A análise estática do
 cabeçalho retornou `No issues found!`. Logs:
 `.system-test/logs/cc223e7d-4f5a-47e1-9030-a55f04a5cecc/`.
 O workflow permanece somente preparado, sem execução no GitHub Actions.
+
+### Falha posterior no GitHub Actions e ajuste Linux
+
+Após a publicação feita pelo usuário, a execução do Actions `34623391633`
+(commit `a73c06852ba62d836bf7ce13cf3ae1b72c27181e`) falhou no Linux.
+O artefato `frontend-system-test-logs.zip`, execução interna
+`31b6b878-2f36-4d43-98fd-64a29f69dbc1`, comprova compilação, autenticação,
+salvamento e consultas reais concluídos. A falha principal foi um overflow
+vertical de 17 pixels em uma coluna de botão com espaço de 127 × 81,9 pixels.
+Os erros posteriores de `deactivated widget` ocorreram quando o Flutter
+tentava descrever esse erro depois que o formulário já havia sido descartado.
+
+O layout vertical de `CustomButtonWidget` foi ajustado com `Flexible` e
+`FittedBox(fit: BoxFit.scaleDown)` no rótulo: o texto completo passa a respeitar
+o espaço disponível sob o ícone, inclusive quando a fonte da plataforma tem
+métricas diferentes. Não se cortam nomes de períodos/tipos de insulina nem
+se alteram as ações dos botões. O cenário, a janela 430 × 932, as fixtures e
+as verificações de persistência permanecem iguais; erros de renderização
+continuam reprovando o teste.
+
+Regressão Windows após esse ajuste: execução
+`f0c68e4b-f535-4e48-88b1-fa93791b12e7`, **1 teste aprovado, código 0**, com
+API e banco reais e limpeza concluída. A análise do arquivo não encontrou
+erros; reportou apenas dois avisos informativos `use_null_aware_elements`
+nas verificações de ícones já existentes. O diff foi conferido.
+
+A validação Linux foi preparada em uma cópia separada
+`C:\front-insulog-devops\insulog-front-linux-validation`, com Ubuntu 24.04
+via WSL, Flutter 3.41.6/Dart 3.11.4, Node 24.13.1 e Xvfb. A instalação local
+usa DejaVu Sans como fonte padrão. Nela, a versão anterior também passou:
+o overflow específico do runner não foi reproduzido localmente. Portanto,
+a hipótese de diferença nas métricas de fonte não deve ser tratada como
+causa comprovada; o defeito de restrição de espaço está registrado no ZIP.
+O resultado no GitHub ainda depende de nova execução após publicar o ajuste.
+
+Versão corrigida validada no Ubuntu/Xvfb: execução
+`ce53c302-e933-463f-94c0-8067b2decfe7`, **`All tests passed!`, 1 cenário,
+código 0**. Foi usado o mesmo teste Dart, sem a instrumentação adicional usada
+durante o diagnóstico. API, PostgreSQL e fluxo pela interface reais; limpeza
+concluída e container removido. Logs na cópia Linux em
+`.system-test/logs/ce53c302-e933-463f-94c0-8067b2decfe7/`.
+Nenhum commit, push ou disparo remoto foi feito pelo assistente nesta correção.
+
+### Conciliação com o repositório original
+
+Referência conferida: `origin/main` em
+`62f6b9349b98bd742d4af5b57a49138b7ff1dc3c`.
+
+- `home_header_widget.dart` parte da versão atual da main: mantém largura de
+  referência limitada a 600, altura mínima de 145 no cartão e `Flexible` no
+  status. Sobre essa versão permanece a correção da saudação com `Expanded`
+  e reticências, necessária para usernames longos.
+- `pubspec.yaml` corresponde à main, com uma única declaração de
+  `integration_test`. A simulação de união automática havia produzido uma
+  declaração duplicada; o arquivo conciliado elimina essa incompatibilidade.
+- O README foi restaurado da main. O workflow `flutter-tests.yml`, os dois
+  arquivos de integração preexistentes e os seis arquivos de testes unitários
+  foram trazidos sem alteração da main. Não são cenários novos desta tarefa.
+  O teste de sistema continua sendo executado por caminho explícito, com API
+  e banco reais, separado das verificações preexistentes.
+- O lockfile fixado segue válido com `flutter pub get --enforce-lockfile`.
+- Os 37 testes de `test/` passaram no Windows e no Ubuntu 24.04 com Flutter
+  3.41.6. O teste de sistema Windows também passou após a conciliação.
+
+Os arquivos foram conciliados sem alterar commits, índice ou histórico.
+Isso não registra uma integração da main no grafo Git: a simulação de três
+vias ainda sinaliza conflito no cabeçalho porque as duas branches alteraram
+o mesmo bloco. Ao registrar a integração da main, deve-se usar o cabeçalho
+conciliado desta entrega, que já contém as correções dos dois lados, e manter
+uma única declaração de `integration_test`. Não escolher uma versão antiga
+inteira nem descartar as verificações preexistentes para resolver o conflito.
+O merge remoto deve aguardar os checks do novo commit.
+
+Validações da conciliação: análise do cabeçalho e do cenário sem problemas;
+`flutter pub get --enforce-lockfile` aprovado; `flutter test test` com 37
+aprovações em ambos os sistemas; `integration_test/app_test.dart`, usado
+pelo workflow original, aprovado no Ubuntu/Xvfb. O teste de sistema Windows
+passou na execução `649f1e09-9024-4a7c-a49e-f05e055926c2`, com código 0 e
+limpeza concluída. O arquivo de login com API simulada já existente na main
+foi preservado, mas não foi acrescentado ao workflow nem usado para validar
+o teste de sistema desta tarefa.
+
+O teste de sistema conciliado também passou no Ubuntu/Xvfb:
+`3c14d5b8-d312-4394-bca6-d40f376ebe7c`, **1 aprovado, código 0**, com
+API e banco reais. A limpeza concluiu e o container foi removido.
