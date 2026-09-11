@@ -24,13 +24,18 @@ class HomeHeaderWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Olá, ${state.returnNameLogin()}!',
-                    style: TextStyle(
-                      fontSize: width * 0.08,
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Text(
+                      'Olá, ${state.returnNameLogin()}!',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: width * 0.08,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
+                  const SizedBox(width: 12),
                   CircleAvatar(
                     backgroundColor: Color.fromARGB(255, 170, 247, 194),
                     radius: 24,

@@ -234,16 +234,21 @@ class _CustomButtonWidgetState extends State<CustomButtonWidget> {
                       if (iconWidget != null) iconWidget,
                       SizedBox(height: (iconWidget != null && widget.text != null) ? 8.0 : 0.0),
                       if (widget.text != null)
-                        Text(
-                          maxLines: 2,
-                          widget.text ?? '',
-                          style: TextStyle(
-                            fontWeight: widget.isFontBold == true
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            fontFamily: widget.isfont == true ? 'Greyhound' : null,
-                            fontSize: widget.textSize ?? 16.0,
-                            color: _getTextColor(),
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              maxLines: 2,
+                              widget.text ?? '',
+                              style: TextStyle(
+                                fontWeight: widget.isFontBold == true
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                fontFamily: widget.isfont == true ? 'Greyhound' : null,
+                                fontSize: widget.textSize ?? 16.0,
+                                color: _getTextColor(),
+                              ),
+                            ),
                           ),
                         ),
                     ],

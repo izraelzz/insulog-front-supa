@@ -24,6 +24,7 @@ class SelectDaysReportWidget extends StatelessWidget {
               (reportDay.day == state.selectedDay) ||
               (state.selectedDay == 0);
           return GestureDetector(
+            key: ValueKey('report-day-${reportDay.day}'),
             onTap: () {
               state.setDay(reportDay.day);
             },
