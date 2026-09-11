@@ -26,6 +26,9 @@ class ApiIpService {
   }
 
   Future<String> getBaseUrl() async {
+    const configuredUrl = String.fromEnvironment('API_BASE_URL');
+    if (configuredUrl.isNotEmpty) return configuredUrl;
+
     final savedIp = await getApiIpDigits();
     final ip =
         (isValidIp(savedIp) ? savedIp : null) ??
