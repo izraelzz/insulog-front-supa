@@ -286,13 +286,11 @@ Referência conferida: `origin/main` em
 - Os 37 testes de `test/` passaram no Windows e no Ubuntu 24.04 com Flutter
   3.41.6. O teste de sistema Windows também passou após a conciliação.
 
-Os arquivos foram conciliados sem alterar commits, índice ou histórico.
-Isso não registra uma integração da main no grafo Git: a simulação de três
-vias ainda sinaliza conflito no cabeçalho porque as duas branches alteraram
-o mesmo bloco. Ao registrar a integração da main, deve-se usar o cabeçalho
-conciliado desta entrega, que já contém as correções dos dois lados, e manter
-uma única declaração de `integration_test`. Não escolher uma versão antiga
-inteira nem descartar as verificações preexistentes para resolver o conflito.
+A integra??o local com a main foi registrada para publica??o na branch
+`test/frontend-ci`, ap?s autoriza??o de envio. O conflito no cabe?alho foi
+resolvido mantendo a vers?o conciliada e validada acima. A integra??o n?o
+alterou o conte?do de c?digo j? testado e preservou uma ?nica declara??o
+de `integration_test`.
 O merge remoto deve aguardar os checks do novo commit.
 
 Validações da conciliação: análise do cabeçalho e do cenário sem problemas;
